@@ -1,7 +1,7 @@
 const firstRow = prompt("Введите 1-ю строку");
 const secondRow = prompt("Введите 2-ю строку");
 
-let char = prompt("Введите символ, количество которого необходимо посчитать");
+const char = prompt("Введите символ, количество которого необходимо посчитать");
 
 let resultFirstRow = 0;
 let resultSecondRow = 0;
