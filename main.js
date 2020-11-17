@@ -21,7 +21,6 @@ function countCharInRow(row, char) {
 
     for (let i = 0; i < row.length; i++) {
         if (row[i] === char) {
-            console.log(row[i])
             cnt += 1;
         }
     }
