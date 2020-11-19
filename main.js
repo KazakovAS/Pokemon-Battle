@@ -1,4 +1,5 @@
 const kickBtn = document.getElementById('btn-kick');
+const watergunBtn = document.getElementById('btn-watergun');
 
 const character = {
     name: "Squirtle",
@@ -25,18 +26,6 @@ const enemy = {
 function init() {
     console.log("Start Game");
 
-    // renderLvl(character);
-    // renderLvl(enemy);
-
-    // renderName(character);
-    // renderName(enemy);
-
-    // renderProgressBarHP(character);
-    // renderProgressBarHP(enemy);
-
-    // renderHP(character);
-    // renderHP(enemy);
-
     renderPerson(character);
     renderPerson(enemy);
 }
@@ -48,23 +37,12 @@ function renderPerson(person) {
     person.elProgressBarHP.style.width = 100 + '%';
 }
 
-// function renderLvl(person) {
-// }
-
-// function renderName(person) {
-// }
-
-// function renderHP(person) {
-// }
-
-// function renderProgressBarHP(person) {
-// }
-
 function damaging(count, person) {
     if (person.currentHP <= count) {
         person.currentHP = 0;
         alert(person.name + ' - Проиграл!')
         kickBtn.disabled = true;
+        watergunBtn.disabled = true;
     } else {
         person.currentHP -= count;
     }
@@ -82,6 +60,13 @@ kickBtn.addEventListener('click', function () {
     damaging(random(20), character);
     damaging(random(20), enemy);
 });
+
+watergunBtn.addEventListener('click', function () {
+    console.log('watergun');
+    damaging(random(40), enemy);
+});
+
+
 
 
 
