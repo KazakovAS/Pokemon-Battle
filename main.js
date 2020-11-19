@@ -1,30 +1,74 @@
-const firstRow = prompt("Введите 1-ю строку");
-const secondRow = prompt("Введите 2-ю строку");
+const kickBtn = document.getElementById('btn-kick');
+const watergunBtn = document.getElementById('btn-watergun');
 
-const char = prompt("Введите символ, количество которого необходимо посчитать");
+const character = {
+    name: "Squirtle",
+    lvl: 4,
+    defaultHP: 120,
+    currentHP: 120,
+    elLvl: document.getElementById('lvl-character'),
+    elName: document.getElementById('name-character'),
+    elHP: document.getElementById('health-character'),
+    elProgressBarHP: document.getElementById('progressbar-character')
+}
 
-function getRow(firstRow, secondRow, char) {
-    const resultFirstRow  = countCharInRow(firstRow, char);
-    const resultSecondRow = countCharInRow(secondRow, char);
+const enemy = {
+    name: "Rattata",
+    lvl: 2,
+    defaultHP: 90,
+    currentHP: 90,
+    elLvl: document.getElementById('lvl-enemy'),
+    elName: document.getElementById('name-enemy'),
+    elHP: document.getElementById('health-enemy'),
+    elProgressBarHP: document.getElementById('progressbar-enemy')
+}
 
-    if (resultFirstRow > resultSecondRow) {
-        alert(`Количество символов ${char} больше в 1-ой строке`);
-    } else if (resultFirstRow < resultSecondRow) {
-        alert(`Количество символов ${char} больше во 2-ой строке`);
+function init() {
+    console.log("Start Game");
+
+    renderPerson(character);
+    renderPerson(enemy);
+}
+
+function renderPerson(person) {
+    person.elLvl.textContent = person.lvl;
+    person.elName.textContent = person.name;
+    person.elHP.textContent = person.currentHP + ' / ' + person.defaultHP;
+    person.elProgressBarHP.style.width = 100 + '%';
+}
+
+function damaging(count, person) {
+    if (person.currentHP <= count) {
+        person.currentHP = 0;
+
+        alert(person.name + ' - Проиграл!')
+        kickBtn.disabled = true;
+        watergunBtn.disabled = true;
     } else {
-        alert(`Количество символов ${char} одинаково в обех строках`)
+        person.currentHP -= count + person.lvl;
     }
+
+    person.elHP.textContent = person.currentHP + ' / ' + person.defaultHP;
+    person.elProgressBarHP.style.width = (person.currentHP / person.defaultHP * 100) + '%';
 }
 
-function countCharInRow(row, char) {
-    let cnt = 0;
-
-    for (let i = 0; i < row.length; i++) {
-        if (row[i] === char) {
-            cnt += 1;
-        }
-    }
-    return cnt;
+function random(num) {
+    return Math.ceil(Math.random() * num)
 }
 
-getRow(firstRow, secondRow, char);
+kickBtn.addEventListener('click', function () {
+    console.log('Kick');
+    damaging(random(20), character);
+    damaging(random(20), enemy);
+});
+
+watergunBtn.addEventListener('click', function () {
+    console.log('watergun');
+    damaging(random(40), enemy);
+});
+
+
+
+
+
+init();
