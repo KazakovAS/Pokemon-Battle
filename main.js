@@ -40,11 +40,12 @@ function renderPerson(person) {
 function damaging(count, person) {
     if (person.currentHP <= count) {
         person.currentHP = 0;
+
         alert(person.name + ' - Проиграл!')
         kickBtn.disabled = true;
         watergunBtn.disabled = true;
     } else {
-        person.currentHP -= count;
+        person.currentHP -= count + person.lvl;
     }
 
     person.elHP.textContent = person.currentHP + ' / ' + person.defaultHP;
