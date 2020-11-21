@@ -1,15 +1,19 @@
-const kickBtn = document.getElementById('btn-kick');
-const watergunBtn = document.getElementById('btn-watergun');
+function $getElById(id) {
+    return document.getElementById(id);
+}
+
+const kickBtn = $getElById('btn-kick');
+const watergunBtn = $getElById('btn-watergun');
 
 const character = {
     name: "Squirtle",
     lvl: 4,
     defaultHP: 120,
     currentHP: 120,
-    elLvl: document.getElementById('lvl-character'),
-    elName: document.getElementById('name-character'),
-    elHP: document.getElementById('health-character'),
-    elProgressBarHP: document.getElementById('progressbar-character')
+    elLvl: $getElById('lvl-character'),
+    elName: $getElById('name-character'),
+    elHP: $getElById('health-character'),
+    elProgressBarHP: $getElById('progressbar-character')
 }
 
 const enemy = {
@@ -17,10 +21,10 @@ const enemy = {
     lvl: 2,
     defaultHP: 90,
     currentHP: 90,
-    elLvl: document.getElementById('lvl-enemy'),
-    elName: document.getElementById('name-enemy'),
-    elHP: document.getElementById('health-enemy'),
-    elProgressBarHP: document.getElementById('progressbar-enemy')
+    elLvl: $getElById('lvl-enemy'),
+    elName: $getElById('name-enemy'),
+    elHP: $getElById('health-enemy'),
+    elProgressBarHP: $getElById('progressbar-enemy')
 }
 
 function init() {
