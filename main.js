@@ -1,70 +1,101 @@
-const kickBtn = document.getElementById('btn-kick');
-const watergunBtn = document.getElementById('btn-watergun');
+function $getElById(id) {
+    return document.getElementById(id);
+}
+
+const logs = document.querySelector('#logs');
+
+const kickBtn = $getElById('btn-kick');
+const watergunBtn = $getElById('btn-watergun');
 
 const character = {
     name: "Squirtle",
     lvl: 4,
     defaultHP: 120,
     currentHP: 120,
-    elLvl: document.getElementById('lvl-character'),
-    elName: document.getElementById('name-character'),
-    elHP: document.getElementById('health-character'),
-    elProgressBarHP: document.getElementById('progressbar-character')
+    elLvl: $getElById('lvl-character'),
+    elName: $getElById('name-character'),
+    elHP: $getElById('health-character'),
+    elProgressBarHP: $getElById('progressbar-character'),
+    damaging: damaging,
+    renderPerson: renderPerson
 }
+const {name, ...rest} = character;
 
 const enemy = {
     name: "Rattata",
     lvl: 2,
     defaultHP: 90,
     currentHP: 90,
-    elLvl: document.getElementById('lvl-enemy'),
-    elName: document.getElementById('name-enemy'),
-    elHP: document.getElementById('health-enemy'),
-    elProgressBarHP: document.getElementById('progressbar-enemy')
+    elLvl: $getElById('lvl-enemy'),
+    elName: $getElById('name-enemy'),
+    elHP: $getElById('health-enemy'),
+    elProgressBarHP: $getElById('progressbar-enemy'),
+    damaging: damaging,
+    renderPerson: renderPerson
 }
 
 function init() {
     console.log("Start Game");
 
-    renderPerson(character);
-    renderPerson(enemy);
+    character.renderPerson();
+    enemy.renderPerson();
 }
 
-function renderPerson(person) {
-    person.elLvl.textContent = person.lvl;
-    person.elName.textContent = person.name;
-    person.elHP.textContent = person.currentHP + ' / ' + person.defaultHP;
-    person.elProgressBarHP.style.width = 100 + '%';
+function renderPerson() {
+    this.elLvl.textContent = this.lvl;
+    this.elName.textContent = this.name;
+    this.elHP.textContent = this.currentHP + ' / ' + this.defaultHP;
+    this.elProgressBarHP.style.width = 100 + '%';
 }
 
-function damaging(count, person) {
-    if (person.currentHP <= count) {
-        person.currentHP = 0;
+function damaging(count) {
+    this.currentHP -= count + this.lvl;
 
-        alert(person.name + ' - Проиграл!')
+    const log = this === enemy ? generateLog(this, character) : generateLog(this, enemy)
+    const logsItem = document.createElement('p');
+
+    logsItem.textContent = `${log}`;
+    logs.insertBefore(logsItem, logs.children[0]);
+
+    if (this.currentHP <= count) {
+        this.currentHP = 0;
+        alert(this.name + ' - Проиграл!')
         kickBtn.disabled = true;
         watergunBtn.disabled = true;
-    } else {
-        person.currentHP -= count + person.lvl;
     }
 
-    person.elHP.textContent = person.currentHP + ' / ' + person.defaultHP;
-    person.elProgressBarHP.style.width = (person.currentHP / person.defaultHP * 100) + '%';
+    this.elHP.textContent = this.currentHP + ' / ' + this.defaultHP;
+    this.elProgressBarHP.style.width = (this.currentHP / this.defaultHP * 100) + '%';
 }
 
 function random(num) {
     return Math.ceil(Math.random() * num)
 }
 
+function generateLog(firstPerson, secondPerson) {
+    const logs = [
+        `${firstPerson.name} вспомнил что-то важное, но неожиданно ${secondPerson.name}, не помня себя от испуга, ударил в предплечье врага. [${firstPerson.currentHP} / ${firstPerson.defaultHP}]`,
+        `${firstPerson.name} поперхнулся, и за это ${secondPerson.name} с испугу приложил прямой удар коленом в лоб врага. [${firstPerson.currentHP} / ${firstPerson.defaultHP}]`,
+        `${firstPerson.name} забылся, но в это время наглый ${secondPerson.name}, приняв волевое решение, неслышно подойдя сзади, ударил. [${firstPerson.currentHP} / ${firstPerson.defaultHP}]`,
+        `${firstPerson.name} пришел в себя, но неожиданно ${secondPerson.name} случайно нанес мощнейший удар. [${firstPerson.currentHP} / ${firstPerson.defaultHP}]`,
+        `${firstPerson.name} поперхнулся, но в это время ${secondPerson.name} нехотя раздробил кулаком \<вырезанно цензурой\> противника. [${firstPerson.currentHP} / ${firstPerson.defaultHP}]`,
+        `${firstPerson.name} удивился, а ${secondPerson.name} пошатнувшись влепил подлый удар. [${firstPerson.currentHP} / ${firstPerson.defaultHP}]`,
+        `${firstPerson.name} высморкался, но неожиданно ${secondPerson.name} провел дробящий удар. [${firstPerson.currentHP} / ${firstPerson.defaultHP}]`,
+        `${firstPerson.name} пошатнулся, и внезапно наглый ${secondPerson.name} беспричинно ударил в ногу противника [${firstPerson.currentHP} / ${firstPerson.defaultHP}]`,
+        `${firstPerson.name} расстроился, как вдруг, неожиданно ${secondPerson.name} случайно влепил стопой в живот соперника. [${firstPerson.currentHP} / ${firstPerson.defaultHP}]`,
+        `${firstPerson.name} пытался что-то сказать, но вдруг, неожиданно ${secondPerson.name} со скуки, разбил бровь сопернику. [${firstPerson.currentHP} / ${firstPerson.defaultHP}]`
+    ];
+
+    return logs[random(logs.length) - 1];
+}
+
 kickBtn.addEventListener('click', function () {
-    console.log('Kick');
-    damaging(random(20), character);
-    damaging(random(20), enemy);
+    character.damaging(random(20));
+    enemy.damaging(random(20));
 });
 
 watergunBtn.addEventListener('click', function () {
-    console.log('watergun');
-    damaging(random(40), enemy);
+    enemy.damaging(random(40));
 });
 
 
