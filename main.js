@@ -13,7 +13,9 @@ const character = {
     elLvl: $getElById('lvl-character'),
     elName: $getElById('name-character'),
     elHP: $getElById('health-character'),
-    elProgressBarHP: $getElById('progressbar-character')
+    elProgressBarHP: $getElById('progressbar-character'),
+    damaging: damaging,
+    renderPerson: renderPerson
 }
 
 const enemy = {
@@ -24,36 +26,37 @@ const enemy = {
     elLvl: $getElById('lvl-enemy'),
     elName: $getElById('name-enemy'),
     elHP: $getElById('health-enemy'),
-    elProgressBarHP: $getElById('progressbar-enemy')
+    elProgressBarHP: $getElById('progressbar-enemy'),
+    damaging: damaging,
+    renderPerson: renderPerson
 }
 
 function init() {
     console.log("Start Game");
 
-    renderPerson(character);
-    renderPerson(enemy);
+    character.renderPerson();
+    enemy.renderPerson();
 }
 
-function renderPerson(person) {
-    person.elLvl.textContent = person.lvl;
-    person.elName.textContent = person.name;
-    person.elHP.textContent = person.currentHP + ' / ' + person.defaultHP;
-    person.elProgressBarHP.style.width = 100 + '%';
+function renderPerson() {
+    this.elLvl.textContent = this.lvl;
+    this.elName.textContent = this.name;
+    this.elHP.textContent = this.currentHP + ' / ' + this.defaultHP;
+    this.elProgressBarHP.style.width = 100 + '%';
 }
 
-function damaging(count, person) {
-    if (person.currentHP <= count) {
-        person.currentHP = 0;
+function damaging(count) {
+    this.currentHP -= count + this.lvl;
 
-        alert(person.name + ' - Проиграл!')
+    if (this.currentHP <= count) {
+        this.currentHP = 0;
+        alert(this.name + ' - Проиграл!')
         kickBtn.disabled = true;
         watergunBtn.disabled = true;
-    } else {
-        person.currentHP -= count + person.lvl;
     }
 
-    person.elHP.textContent = person.currentHP + ' / ' + person.defaultHP;
-    person.elProgressBarHP.style.width = (person.currentHP / person.defaultHP * 100) + '%';
+    this.elHP.textContent = this.currentHP + ' / ' + this.defaultHP;
+    this.elProgressBarHP.style.width = (this.currentHP / this.defaultHP * 100) + '%';
 }
 
 function random(num) {
@@ -62,13 +65,13 @@ function random(num) {
 
 kickBtn.addEventListener('click', function () {
     console.log('Kick');
-    damaging(random(20), character);
-    damaging(random(20), enemy);
+    character.damaging(random(20));
+    enemy.damaging(random(20));
 });
 
 watergunBtn.addEventListener('click', function () {
     console.log('watergun');
-    damaging(random(40), enemy);
+    enemy.damaging(random(40));
 });
 
 
