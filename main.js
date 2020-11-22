@@ -2,6 +2,17 @@ function $getElById(id) {
     return document.getElementById(id);
 }
 
+const logs = document.querySelector('#logs');
+
+
+for (i = 0; i < 6; i++) {
+    const logsItem = document.createElement('p');
+
+    logsItem.textContent = `${i} - some`;
+    logs.insertBefore(logsItem, logs.children[0]);
+}
+
+
 const kickBtn = $getElById('btn-kick');
 const watergunBtn = $getElById('btn-watergun');
 
