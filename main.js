@@ -129,7 +129,7 @@ function makeCounter() {
     };
 };
 
-let clicker = function(e) {
+let clicker = function() {
     let value = this.counter();
     console.log(value);
 };
@@ -137,7 +137,7 @@ let clicker = function(e) {
 for (let i = 0; i < buttons.length; i++) {
     buttons[i].counter = makeCounter();
 
-    buttons[i].addEventListener('click', function (e) {
+    buttons[i].addEventListener('click', function () {
         clicker.apply(this)
     });
 }
