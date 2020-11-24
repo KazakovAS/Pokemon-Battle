@@ -6,6 +6,7 @@ const logs = document.querySelector('#logs');
 
 const kickBtn = $getElById('btn-kick');
 const watergunBtn = $getElById('btn-watergun');
+const healPotionBtn = $getElById('btn-heal-potion');
 
 const character = {
     name: "Squirtle",
@@ -17,9 +18,9 @@ const character = {
     elHP: $getElById('health-character'),
     elProgressBarHP: $getElById('progressbar-character'),
     damaging: damaging,
-    renderPerson: renderPerson
+    renderPerson: renderPerson,
+    heal: heal
 }
-const {name, ...rest} = character;
 
 const enemy = {
     name: "Rattata",
@@ -62,6 +63,7 @@ function damaging(count) {
         alert(this.name + ' - Проиграл!')
         kickBtn.disabled = true;
         watergunBtn.disabled = true;
+        healPotionBtn.disabled = true;
     }
 
     this.elHP.textContent = this.currentHP + ' / ' + this.defaultHP;
@@ -89,6 +91,20 @@ function generateLog(firstPerson, secondPerson) {
     return logs[random(logs.length) - 1];
 }
 
+function heal(count) {
+    if (this.currentHP < this.defaultHP) {
+        if (this.defaultHP - this.currentHP < count) {
+            this.currentHP = this.defaultHP;
+        } else {
+            this.currentHP += count;
+        }
+    }
+
+    this.elHP.textContent = this.currentHP + ' / ' + this.defaultHP;
+    this.elProgressBarHP.style.width = (this.currentHP / this.defaultHP * 100) + '%';
+}
+
+
 kickBtn.addEventListener('click', function () {
     character.damaging(random(20));
     enemy.damaging(random(20));
@@ -97,6 +113,43 @@ kickBtn.addEventListener('click', function () {
 watergunBtn.addEventListener('click', function () {
     enemy.damaging(random(40));
 });
+
+healPotionBtn.addEventListener('click', function () {
+    character.heal(40);
+});
+
+
+const buttons = document.getElementsByTagName('button');
+
+function makeCounter() {
+    let currentCount = 0;
+    let maxCount = 5
+
+    return function (el) {
+
+        if (currentCount < maxCount) {
+            currentCount++
+            console.log(currentCount);
+            console.log(`Нажатий осталось: ${maxCount - currentCount}`)
+        }
+        if (currentCount === maxCount) {
+            el.disabled = true;
+        }
+
+        return currentCount;
+    };
+};
+
+for (let i = 0; i < buttons.length; i++) {
+    buttons[i].counter = makeCounter();
+
+    buttons[i].addEventListener('click', function () {
+        buttons[i].counter(buttons[i])
+    });
+}
+
+
+
 
 
 
