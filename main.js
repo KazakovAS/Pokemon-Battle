@@ -121,18 +121,26 @@ healPotionBtn.addEventListener('click', function () {
 
 const buttons = document.getElementsByTagName('button');
 
-for (let i = 0; i < buttons.length; i++) {
-    buttons[i].addEventListener('click', count());
-}
+function makeCounter() {
+  let currentCount = 1;
 
-function count() {
-    counter = 0;
-
-    return function () {
-        counter += 1;
-        console.log(counter)
-    }
+    return function() {
+        return currentCount++;
+    };
 };
+
+let clicker = function(e) {
+    let value = this.counter();
+    console.log(value);
+};
+
+for (let i = 0; i < buttons.length; i++) {
+    buttons[i].counter = makeCounter();
+
+    buttons[i].addEventListener('click', function (e) {
+        clicker.apply(this)
+    });
+}
 
 
 
