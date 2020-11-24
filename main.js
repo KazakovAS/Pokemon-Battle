@@ -122,7 +122,7 @@ healPotionBtn.addEventListener('click', function () {
 const buttons = document.getElementsByTagName('button');
 
 function makeCounter() {
-  let currentCount = 1;
+    let currentCount = 1;
 
     return function() {
         return currentCount++;
