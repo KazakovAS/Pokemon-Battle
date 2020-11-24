@@ -122,23 +122,29 @@ healPotionBtn.addEventListener('click', function () {
 const buttons = document.getElementsByTagName('button');
 
 function makeCounter() {
-    let currentCount = 1;
+    let currentCount = 0;
+    let maxCount = 5
 
-    return function() {
-        return currentCount++;
+    return function (el) {
+
+        if (currentCount < maxCount) {
+            currentCount++
+            console.log(currentCount);
+            console.log(`Нажатий осталось: ${maxCount - currentCount}`)
+        }
+        if (currentCount === maxCount) {
+            el.disabled = true;
+        }
+
+        return currentCount;
     };
-};
-
-let clicker = function() {
-    let value = this.counter();
-    console.log(value);
 };
 
 for (let i = 0; i < buttons.length; i++) {
     buttons[i].counter = makeCounter();
 
     buttons[i].addEventListener('click', function () {
-        clicker.apply(this)
+        buttons[i].counter(buttons[i])
     });
 }
 
