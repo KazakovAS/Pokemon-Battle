@@ -118,6 +118,13 @@ healPotionBtn.addEventListener('click', function () {
     character.heal(40);
 });
 
+
+const buttons = document.getElementsByTagName('button');
+
+for (let i = 0; i < buttons.length; i++) {
+    buttons[i].addEventListener('click', count());
+}
+
 function count() {
     counter = 0;
 
@@ -126,11 +133,6 @@ function count() {
         console.log(counter)
     }
 };
-
-kickBtn.onclick = count()
-watergunBtn.onclick = count()
-healPotionBtn.onclick = count()
-
 
 
 
