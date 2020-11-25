@@ -125,10 +125,13 @@ function makeCounter(count = 6) {
 
 
     return function (el) {
+        let textContent = el.textContent;
+
+        textContent = `${textContent} (${count})`;
+        console.log(textContent)
 
         if (count > 0) {
             count--
-            console.log(`Нажатий осталось: ${count}`)
         }
         if (count === 0) {
             el.disabled = true;
