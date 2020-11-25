@@ -121,22 +121,20 @@ healPotionBtn.addEventListener('click', function () {
 
 const buttons = document.getElementsByTagName('button');
 
-function makeCounter() {
-    let currentCount = 0;
-    let maxCount = 5
+function makeCounter(count = 6) {
+
 
     return function (el) {
 
-        if (currentCount < maxCount) {
-            currentCount++
-            console.log(currentCount);
-            console.log(`Нажатий осталось: ${maxCount - currentCount}`)
+        if (count > 0) {
+            count--
+            console.log(`Нажатий осталось: ${count}`)
         }
-        if (currentCount === maxCount) {
+        if (count === 0) {
             el.disabled = true;
         }
 
-        return currentCount;
+        return count;
     };
 };
 
