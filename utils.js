@@ -1,7 +1,5 @@
-function random(max, min = 0) {
-    const num = max - min;
-
-    return Math.ceil(Math.random() * num) + min;
+function $getElById(id) {
+    return document.getElementById(id);
 }
 
-export default random;
+export default $getElById;
