@@ -25,9 +25,6 @@ const $btn2 = $getElById('btn-kick');
 const btnWaterGun = countBtn(10, $btn);
 $btn.addEventListener('click', function () {
     btnWaterGun();
-    player1.changeHP(random(60, 20), function (count) {
-        console.log(generateLog(player1, player2, count));
-    });
     player2.changeHP(random(60, 20), function (count) {
         console.log(generateLog(player2, player1, count));
     });
@@ -43,3 +40,5 @@ $btn2.addEventListener('click', function () {
         console.log(generateLog(player2, player1, count));
     });
 })
+
+
