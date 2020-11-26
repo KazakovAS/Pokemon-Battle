@@ -1,8 +1,8 @@
 import Pokemon from "./pokemon.js";
-import random from "./random.js"
-import countBtn from "./count.js"
-import $getElById from "./utils.js"
-import generateLog from "./generateLog.js"
+import random from "./random.js";
+import countBtn from "./count.js";
+import $getElById from "./utils.js";
+import generateLog from "./generateLog.js";
 
 
 const player1 = new Pokemon({

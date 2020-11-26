@@ -1,3 +1,8 @@
+import $getElById from "./utils.js"
+
+const $btn = $getElById('btn-water-gun');
+const $btn2 = $getElById('btn-kick');
+
 class Selectors {
     constructor(name) {
         this.elHP = document.getElementById(`health-${name}`);
