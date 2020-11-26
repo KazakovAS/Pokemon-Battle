@@ -1,159 +1,81 @@
+import Pokemon from "./pokemon.js";
+import random from "./utils.js"
+
+const player1 = new Pokemon({
+    name: 'Squirtle',
+    type: 'water',
+    hp: 150,
+    selectors: 'character',
+})
+
+const player2 = new Pokemon({
+    name: 'Ratatta',
+    type: 'normal',
+    hp: 100,
+    selectors: 'enemy',
+})
+
 function $getElById(id) {
     return document.getElementById(id);
 }
 
-const logs = document.querySelector('#logs');
+const $btn = $getElById('btn-water-gun');
+const $btn2 = $getElById('btn-kick');
 
-const kickBtn = $getElById('btn-kick');
-const watergunBtn = $getElById('btn-watergun');
-const healPotionBtn = $getElById('btn-heal-potion');
+const btnWaterGun = countBtn(10, $btn);
+$btn.addEventListener('click', function () {
+    btnWaterGun();
+    player1.changeHP(random(60, 20), function (count) {
+        console.log(generateLog(player1, player2, count));
+    });
+    player2.changeHP(random(60, 20), function (count) {
+        console.log(generateLog(player2, player1, count));
+    });
+})
 
-const character = {
-    name: "Squirtle",
-    lvl: 4,
-    defaultHP: 120,
-    currentHP: 120,
-    elLvl: $getElById('lvl-character'),
-    elName: $getElById('name-character'),
-    elHP: $getElById('health-character'),
-    elProgressBarHP: $getElById('progressbar-character'),
-    damaging: damaging,
-    renderPerson: renderPerson,
-    heal: heal
-}
+const btnKick = countBtn(10, $btn2);
+$btn2.addEventListener('click', function () {
+    btnKick();
+    player1.changeHP(random(20), function (count) {
+        console.log(generateLog(player1, player2, count));
+    });
+    player2.changeHP(random(20), function (count) {
+        console.log(generateLog(player2, player1, count));
+    });
+})
 
-const enemy = {
-    name: "Rattata",
-    lvl: 2,
-    defaultHP: 90,
-    currentHP: 90,
-    elLvl: $getElById('lvl-enemy'),
-    elName: $getElById('name-enemy'),
-    elHP: $getElById('health-enemy'),
-    elProgressBarHP: $getElById('progressbar-enemy'),
-    damaging: damaging,
-    renderPerson: renderPerson
-}
+function countBtn(count = 6, el) {
+    const innerText = el.innerText;
+    el.innerText = `${innerText} (${count})`;
 
-function init() {
-    console.log("Start Game");
+    return function () {
+        count--;
 
-    character.renderPerson();
-    enemy.renderPerson();
-}
-
-function renderPerson() {
-    this.elLvl.textContent = this.lvl;
-    this.elName.textContent = this.name;
-    this.elHP.textContent = this.currentHP + ' / ' + this.defaultHP;
-    this.elProgressBarHP.style.width = 100 + '%';
-}
-
-function damaging(count) {
-    this.currentHP -= count + this.lvl;
-
-    const log = this === enemy ? generateLog(this, character) : generateLog(this, enemy)
-    const logsItem = document.createElement('p');
-
-    logsItem.textContent = `${log}`;
-    logs.insertBefore(logsItem, logs.children[0]);
-
-    if (this.currentHP <= count) {
-        this.currentHP = 0;
-        alert(this.name + ' - Проиграл!')
-        kickBtn.disabled = true;
-        watergunBtn.disabled = true;
-        healPotionBtn.disabled = true;
+        if (count === 0) {
+            el.disabled = true;
+        }
+        el.innerText = `${innerText} (${count})`;
+        return count;
     }
-
-    this.elHP.textContent = this.currentHP + ' / ' + this.defaultHP;
-    this.elProgressBarHP.style.width = (this.currentHP / this.defaultHP * 100) + '%';
 }
 
-function random(num) {
-    return Math.ceil(Math.random() * num)
-}
+function generateLog(player1, player2, count) {
+    const { name, hp: { current, total } } = player1;
+    const { name: enemyName } = player2;
 
-function generateLog(firstPerson, secondPerson) {
+
     const logs = [
-        `${firstPerson.name} вспомнил что-то важное, но неожиданно ${secondPerson.name}, не помня себя от испуга, ударил в предплечье врага. [${firstPerson.currentHP} / ${firstPerson.defaultHP}]`,
-        `${firstPerson.name} поперхнулся, и за это ${secondPerson.name} с испугу приложил прямой удар коленом в лоб врага. [${firstPerson.currentHP} / ${firstPerson.defaultHP}]`,
-        `${firstPerson.name} забылся, но в это время наглый ${secondPerson.name}, приняв волевое решение, неслышно подойдя сзади, ударил. [${firstPerson.currentHP} / ${firstPerson.defaultHP}]`,
-        `${firstPerson.name} пришел в себя, но неожиданно ${secondPerson.name} случайно нанес мощнейший удар. [${firstPerson.currentHP} / ${firstPerson.defaultHP}]`,
-        `${firstPerson.name} поперхнулся, но в это время ${secondPerson.name} нехотя раздробил кулаком \<вырезанно цензурой\> противника. [${firstPerson.currentHP} / ${firstPerson.defaultHP}]`,
-        `${firstPerson.name} удивился, а ${secondPerson.name} пошатнувшись влепил подлый удар. [${firstPerson.currentHP} / ${firstPerson.defaultHP}]`,
-        `${firstPerson.name} высморкался, но неожиданно ${secondPerson.name} провел дробящий удар. [${firstPerson.currentHP} / ${firstPerson.defaultHP}]`,
-        `${firstPerson.name} пошатнулся, и внезапно наглый ${secondPerson.name} беспричинно ударил в ногу противника [${firstPerson.currentHP} / ${firstPerson.defaultHP}]`,
-        `${firstPerson.name} расстроился, как вдруг, неожиданно ${secondPerson.name} случайно влепил стопой в живот соперника. [${firstPerson.currentHP} / ${firstPerson.defaultHP}]`,
-        `${firstPerson.name} пытался что-то сказать, но вдруг, неожиданно ${secondPerson.name} со скуки, разбил бровь сопернику. [${firstPerson.currentHP} / ${firstPerson.defaultHP}]`
+        `${name} вспомнил что-то важное, но неожиданно ${enemyName}, не помня себя от испуга, ударил в предплечье врага. - ${count}, [${current} / ${total}]`,
+        `${name} поперхнулся, и за это ${enemyName} с испугу приложил прямой удар коленом в лоб врага. - ${count}, [${current} / ${total}]`,
+        `${name} забылся, но в это время наглый ${enemyName}, приняв волевое решение, неслышно подойдя сзади, ударил. - ${count}, [${current} / ${total}]`,
+        `${name} пришел в себя, но неожиданно ${enemyName} случайно нанес мощнейший удар. - ${count}, [${current} / ${total}]`,
+        `${name} поперхнулся, но в это время ${enemyName} нехотя раздробил кулаком \<вырезанно цензурой\> противника., [${current} / ${total}]`,
+        `${name} удивился, а ${enemyName} пошатнувшись влепил подлый удар. - ${count}, [${current} / ${total}]`,
+        `${name} высморкался, но неожиданно ${enemyName} провел дробящий удар. - ${count}, [${current} / ${total}]`,
+        `${name} пошатнулся, и внезапно наглый ${enemyName} беспричинно ударил в ногу противника. - ${count}, [${current} / ${total}]`,
+        `${name} расстроился, как вдруг, неожиданно ${enemyName} случайно влепил стопой в живот соперника. - ${count}, [${current} / ${total}]`,
+        `${name} пытался что-то сказать, но вдруг, неожиданно ${enemyName} со скуки, разбил бровь сопернику. - ${count}, [${current} / ${total}]`
     ];
 
     return logs[random(logs.length) - 1];
 }
-
-function heal(count) {
-    if (this.currentHP < this.defaultHP) {
-        if (this.defaultHP - this.currentHP < count) {
-            this.currentHP = this.defaultHP;
-        } else {
-            this.currentHP += count;
-        }
-    }
-
-    this.elHP.textContent = this.currentHP + ' / ' + this.defaultHP;
-    this.elProgressBarHP.style.width = (this.currentHP / this.defaultHP * 100) + '%';
-}
-
-
-kickBtn.addEventListener('click', function () {
-    character.damaging(random(20));
-    enemy.damaging(random(20));
-});
-
-watergunBtn.addEventListener('click', function () {
-    enemy.damaging(random(40));
-});
-
-healPotionBtn.addEventListener('click', function () {
-    character.heal(40);
-});
-
-
-const buttons = document.getElementsByTagName('button');
-
-function makeCounter(count = 6) {
-
-
-    return function (el) {
-        let textContent = el.textContent;
-
-        textContent = `${textContent} (${count})`;
-        console.log(textContent)
-
-        if (count > 0) {
-            count--
-        }
-        if (count === 0) {
-            el.disabled = true;
-        }
-
-        return count;
-    };
-};
-
-for (let i = 0; i < buttons.length; i++) {
-    buttons[i].counter = makeCounter();
-
-    buttons[i].addEventListener('click', function () {
-        buttons[i].counter(buttons[i])
-    });
-}
-
-
-
-
-
-
-
-
-init();
