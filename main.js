@@ -15,7 +15,7 @@ const player1 = new Pokemon({
 const player2 = new Pokemon({
     name: 'Ratatta',
     type: 'normal',
-    hp: 100,
+    hp: 90,
     selectors: 'enemy',
 })
 

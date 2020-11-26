@@ -5,6 +5,7 @@ const $btn2 = $getElById('btn-kick');
 
 class Selectors {
     constructor(name) {
+        this.elName = document.getElementById(`name-${name}`);
         this.elHP = document.getElementById(`health-${name}`);
         this.elProgressbar = document.getElementById(`progressbar-${name}`);
     }
@@ -21,6 +22,7 @@ class Pokemon extends Selectors {
         };
         this.type = type;
 
+        this.renderName();
         this.renderHP();
     }
 
@@ -42,6 +44,12 @@ class Pokemon extends Selectors {
     renderHP = () => {
         this.renderHPLife();
         this.renderProgressbarHP();
+    }
+
+    renderName = () => {
+        const { elName } = this;
+
+        elName.innerText = this.name;
     }
 
     renderHPLife = () => {
