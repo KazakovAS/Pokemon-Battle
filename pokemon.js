@@ -1,28 +1,30 @@
-import $getElById from "./utils.js"
-
-const $btn = $getElById('btn-water-gun');
-const $btn2 = $getElById('btn-kick');
+import random from "./random.js";
+import { pokemons } from "./pokemons.js";
 
 class Selectors {
     constructor(name) {
         this.elName = document.getElementById(`name-${name}`);
+        this.elImg = document.getElementById(`img-${name}`);
         this.elHP = document.getElementById(`health-${name}`);
         this.elProgressbar = document.getElementById(`progressbar-${name}`);
     }
 }
 
 class Pokemon extends Selectors {
-    constructor({ name, hp, type, selectors}) {
+    constructor({ name, img, hp, type, selectors, attacks = [] }) {
         super(selectors);
 
         this.name = name;
+        this.img = img;
         this.hp = {
             current: hp,
             total: hp,
         };
         this.type = type;
+        this.attacks = attacks;
 
         this.renderName();
+        this.renderImg();
         this.renderHP();
     }
 
@@ -32,9 +34,19 @@ class Pokemon extends Selectors {
         if (this.hp.current <= 0) {
             this.hp.current = 0;
 
-            alert('Бедный ' + this.name + ' проиграл бой!');
-            $btn.disabled = true;
-            $btn2.disabled = true;
+
+            let player2 = new Pokemon({
+                ...pokemons[random(pokemons.length) - 1],
+                selectors: 'player2',
+            })
+
+            merge(player2, pokemons[random(pokemons.length) - 1]);
+            // const $control = document.querySelectorAll('.button');
+
+            // $control.forEach(item => {
+            //     item.disabled = true;
+            // });
+            // alert('Бедный ' + this.name + ' проиграл бой!');
         }
 
         this.renderHP();
@@ -50,6 +62,12 @@ class Pokemon extends Selectors {
         const { elName } = this;
 
         elName.innerText = this.name;
+    }
+
+    renderImg = () => {
+        const { elImg } = this;
+
+        elImg.src = this.img;
     }
 
     renderHPLife = () => {
