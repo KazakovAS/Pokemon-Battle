@@ -1,22 +1,21 @@
 import Pokemon from "./pokemon.js";
 import random from "./random.js";
 import countBtn from "./count.js";
-// import $getElById from "./utils.js";
 import generateLog from "./generateLog.js";
 import { pokemons } from "./pokemons.js";
 
-const squirtle = pokemons.find(item => item.name === 'Squirtle');
-const pikachu = pokemons.find(item => item.name === 'Pikachu');
+let randomPlayer1 = pokemons[Math.floor(Math.random() * pokemons.length)];
+let randomPlayer2 = pokemons[Math.floor(Math.random() * pokemons.length)];
 
 
 const player1 = new Pokemon({
-    ...squirtle,
+    ...randomPlayer1,
     selectors: 'player1',
 })
 
 
 const player2 = new Pokemon({
-    ...pikachu,
+    ...randomPlayer2,
     selectors: 'player2',
 })
 
