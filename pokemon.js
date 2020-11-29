@@ -1,3 +1,5 @@
+// const $control = document.querySelector('.control');
+
 class Selectors {
     constructor(name) {
         this.elName = document.getElementById(`name-${name}`);

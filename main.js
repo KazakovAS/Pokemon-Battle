@@ -4,8 +4,9 @@ import countBtn from "./count.js";
 import generateLog from "./generateLog.js";
 import { pokemons } from "./pokemons.js";
 
-let randomPlayer1 = pokemons[Math.floor(Math.random() * pokemons.length)];
-let randomPlayer2 = pokemons[Math.floor(Math.random() * pokemons.length)];
+
+let randomPlayer1 = pokemons[random(pokemons.length) - 1];
+let randomPlayer2 = pokemons[random(pokemons.length) - 1];
 
 
 const player1 = new Pokemon({
