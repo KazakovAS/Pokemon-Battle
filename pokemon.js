@@ -1,22 +1,18 @@
-// import $getElById from "./utils.js"
-
-// const $btn = $getElById('btn-water-gun');
-// const $btn2 = $getElById('btn-kick');
-
 class Selectors {
     constructor(name) {
         this.elName = document.getElementById(`name-${name}`);
-        // this.elImg = document.getElementById(`name-${name}`);
+        this.elImg = document.getElementById(`img-${name}`);
         this.elHP = document.getElementById(`health-${name}`);
         this.elProgressbar = document.getElementById(`progressbar-${name}`);
     }
 }
 
 class Pokemon extends Selectors {
-    constructor({ name, hp, type, selectors, attacks = [] }) {
+    constructor({ name, img, hp, type, selectors, attacks = [] }) {
         super(selectors);
 
         this.name = name;
+        this.img = img;
         this.hp = {
             current: hp,
             total: hp,
@@ -25,6 +21,7 @@ class Pokemon extends Selectors {
         this.attacks = attacks;
 
         this.renderName();
+        this.renderImg();
         this.renderHP();
     }
 
@@ -52,6 +49,12 @@ class Pokemon extends Selectors {
         const { elName } = this;
 
         elName.innerText = this.name;
+    }
+
+    renderImg = () => {
+        const { elImg } = this;
+
+        elImg.src = this.img;
     }
 
     renderHPLife = () => {
