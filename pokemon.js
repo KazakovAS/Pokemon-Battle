@@ -1,18 +1,19 @@
-import $getElById from "./utils.js"
+// import $getElById from "./utils.js"
 
-const $btn = $getElById('btn-water-gun');
-const $btn2 = $getElById('btn-kick');
+// const $btn = $getElById('btn-water-gun');
+// const $btn2 = $getElById('btn-kick');
 
 class Selectors {
     constructor(name) {
         this.elName = document.getElementById(`name-${name}`);
+        // this.elImg = document.getElementById(`name-${name}`);
         this.elHP = document.getElementById(`health-${name}`);
         this.elProgressbar = document.getElementById(`progressbar-${name}`);
     }
 }
 
 class Pokemon extends Selectors {
-    constructor({ name, hp, type, selectors}) {
+    constructor({ name, hp, type, selectors, attacks = [] }) {
         super(selectors);
 
         this.name = name;
@@ -21,6 +22,7 @@ class Pokemon extends Selectors {
             total: hp,
         };
         this.type = type;
+        this.attacks = attacks;
 
         this.renderName();
         this.renderHP();

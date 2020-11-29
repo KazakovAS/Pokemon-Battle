@@ -1,44 +1,45 @@
 import Pokemon from "./pokemon.js";
 import random from "./random.js";
 import countBtn from "./count.js";
-import $getElById from "./utils.js";
+// import $getElById from "./utils.js";
 import generateLog from "./generateLog.js";
+import { pokemons } from "./pokemons.js";
+
+const squirtle = pokemons.find(item => item.name === 'Squirtle');
+const pikachu = pokemons.find(item => item.name === 'Pikachu');
 
 
 const player1 = new Pokemon({
-    name: 'Squirtle',
-    type: 'water',
-    hp: 150,
-    selectors: 'character',
+    ...squirtle,
+    selectors: 'player1',
 })
+
 
 const player2 = new Pokemon({
-    name: 'Ratatta',
-    type: 'normal',
-    hp: 90,
-    selectors: 'enemy',
+    ...pikachu,
+    selectors: 'player2',
 })
 
-const $btn = $getElById('btn-water-gun');
-const $btn2 = $getElById('btn-kick');
+const $control = document.querySelector('.control');
 
-const btnWaterGun = countBtn(10, $btn);
-$btn.addEventListener('click', function () {
-    btnWaterGun();
-    player2.changeHP(random(60, 20), function (count) {
-        console.log(generateLog(player2, player1, count));
-    });
-})
+player1.attacks.forEach(item => {
+    const $btn = document.createElement('button');
+    $btn.classList.add('button');
+    $btn.innerText = item.name;
 
-const btnKick = countBtn(10, $btn2);
-$btn2.addEventListener('click', function () {
-    btnKick();
-    player1.changeHP(random(20), function (count) {
-        console.log(generateLog(player1, player2, count));
-    });
-    player2.changeHP(random(20), function (count) {
-        console.log(generateLog(player2, player1, count));
-    });
-})
+    const btnCount = countBtn(item.maxCount, $btn);
 
+    $btn.addEventListener('click', () => {
+        btnCount();
+
+        player1.changeHP(random(20), function (count) {
+            console.log(generateLog(player1, player2, count));
+        });
+        player2.changeHP(random(60, 20), function (count) {
+            console.log(generateLog(player2, player1, count));
+        });
+    })
+
+    $control.appendChild($btn);
+});
 
