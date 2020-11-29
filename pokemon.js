@@ -1,5 +1,3 @@
-// const $control = document.querySelector('.control');
-
 class Selectors {
     constructor(name) {
         this.elName = document.getElementById(`name-${name}`);
@@ -33,9 +31,12 @@ class Pokemon extends Selectors {
         if (this.hp.current <= 0) {
             this.hp.current = 0;
 
+            const $control = document.querySelectorAll('.button');
+
+            $control.forEach(item => {
+                item.disabled = true;
+            });
             alert('Бедный ' + this.name + ' проиграл бой!');
-            $btn.disabled = true;
-            $btn2.disabled = true;
         }
 
         this.renderHP();

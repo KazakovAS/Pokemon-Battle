@@ -9,13 +9,13 @@ let randomPlayer1 = pokemons[random(pokemons.length) - 1];
 let randomPlayer2 = pokemons[random(pokemons.length) - 1];
 
 
-const player1 = new Pokemon({
+let player1 = new Pokemon({
     ...randomPlayer1,
     selectors: 'player1',
 })
 
 
-const player2 = new Pokemon({
+let player2 = new Pokemon({
     ...randomPlayer2,
     selectors: 'player2',
 })
