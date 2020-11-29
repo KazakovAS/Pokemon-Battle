@@ -5,18 +5,14 @@ import generateLog from "./generateLog.js";
 import { pokemons } from "./pokemons.js";
 
 
-let randomPlayer1 = pokemons[random(pokemons.length) - 1];
-let randomPlayer2 = pokemons[random(pokemons.length) - 1];
-
-
 let player1 = new Pokemon({
-    ...randomPlayer1,
+    ...pokemons[random(pokemons.length) - 1],
     selectors: 'player1',
 })
 
 
 let player2 = new Pokemon({
-    ...randomPlayer2,
+    ...pokemons[random(pokemons.length) - 1],
     selectors: 'player2',
 })
 

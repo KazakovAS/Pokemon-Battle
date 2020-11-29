@@ -1,3 +1,6 @@
+import random from "./random.js";
+import { pokemons } from "./pokemons.js";
+
 class Selectors {
     constructor(name) {
         this.elName = document.getElementById(`name-${name}`);
@@ -31,12 +34,19 @@ class Pokemon extends Selectors {
         if (this.hp.current <= 0) {
             this.hp.current = 0;
 
-            const $control = document.querySelectorAll('.button');
 
-            $control.forEach(item => {
-                item.disabled = true;
-            });
-            alert('Бедный ' + this.name + ' проиграл бой!');
+            let player2 = new Pokemon({
+                ...pokemons[random(pokemons.length) - 1],
+                selectors: 'player2',
+            })
+
+            merge(player2, pokemons[random(pokemons.length) - 1]);
+            // const $control = document.querySelectorAll('.button');
+
+            // $control.forEach(item => {
+            //     item.disabled = true;
+            // });
+            // alert('Бедный ' + this.name + ' проиграл бой!');
         }
 
         this.renderHP();
