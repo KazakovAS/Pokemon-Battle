@@ -2,8 +2,6 @@ import Pokemon from "./pokemon.js";
 import random from "./random.js";
 import countBtn from "./count.js";
 import generateLog from "./generateLog.js";
-// import { pokemons } from "./pokemons.js";
-
 
 
 class Game {
